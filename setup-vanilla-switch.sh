@@ -2,7 +2,7 @@
 
 # Clone ovs
 cd /home/vagrant
-git clone https://github.com/P4-vSwitch/ovs.git
+git clone https://github.com/lightningnic/ovs.git
 cd ovs/
 git submodule update --init
 
