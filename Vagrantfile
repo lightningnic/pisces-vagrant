@@ -9,6 +9,24 @@ SCRIPT
 
 $switch_script = <<SWITCH_SCRIPT
     /vagrant/setup-switch.sh
+    # Setup deskop and vncserver
+    sudo apt install -y xfce4 xfce4-goodies tightvncserver
+    vncserver -depth 24 -geometry 1440x900
+    # Install web browser
+    sudo apt install -y chromium-browser
+    # Install Clion IDE
+    wget https://download.jetbrains.com/cpp/CLion-2017.3.5.tar.gz -P /home/vagrant/Downloads/
+    sudo tar -xvf /home/vagrant/Downloads/CLion-2017.3.5.tar.gz -C /opt/
+    sudo ln -s /opt/clion-2017.3.5/bin/clion.sh /usr/bin/clion.sh
+    # Install Eclipse IDE
+    sudo add-apt-repository -y ppa:openjdk-r/ppa
+    sudo apt-get update
+    sudo apt-get -y install openjdk-8-jdk
+    wget 'https://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/oxygen/3/eclipse-cpp-oxygen-3-linux-gtk-x86_64.tar.gz&r=1' -O /home/vagrant/Downloads/eclipse-cpp-oxygen-3-linux-gtk-x86_64.tar.gz
+    sudo tar -xvf /home/vagrant/Downloads/eclipse-cpp-oxygen-3-linux-gtk-x86_64.tar.gz -C /opt/
+    sudo ln -s /opt/eclipse/eclipse /usr/bin/eclipse
+    # Install gdbserver
+    sudo apt-get -y install gdbserver 
 SWITCH_SCRIPT
 
 # $moongen_script = <<MOONGEN_SCRIPT
@@ -27,7 +45,8 @@ Vagrant.configure("2") do |config|
 
         switch.vm.network "private_network", ip: "172.16.0.10", netmask: "255.255.255.0", virtualbox__intnet: "gen-sw"
         switch.vm.network "private_network", ip: "172.16.0.11", netmask: "255.255.255.0", virtualbox__intnet: "sw-rcv"
-        switch.vm.network "private_network", ip: "192.168.50.4"
+        # switch.vm.network "private_network", type: "dhcp"
+        switch.vm.network "forwarded_port", guest: 5901, host: 5901
 
         switch.vm.provider "virtualbox" do |virtualbox|
             # Customize the amount of memory on the VM:
@@ -51,7 +70,7 @@ Vagrant.configure("2") do |config|
 
         generator.vm.provider "virtualbox" do |virtualbox|
             # Customize the amount of memory on the VM:
-            virtualbox.memory = "2048"
+            virtualbox.memory = "1024"
             virtualbox.cpus = "2"
             # Enable promiscuous mode
             virtualbox.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
@@ -71,7 +90,7 @@ Vagrant.configure("2") do |config|
 
         receiver.vm.provider "virtualbox" do |virtualbox|
             # Customize the amount of memory on the VM:
-            virtualbox.memory = "2048"
+            virtualbox.memory = "1024"
             virtualbox.cpus = "2"
             # Enable promiscuous mode
             virtualbox.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
