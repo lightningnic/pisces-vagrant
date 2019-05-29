@@ -2,8 +2,9 @@
 
 # Clone ovs
 cd /home/vagrant
-git clone https://github.com/lightningnic/ovs.git
+git clone https://github.com/P4-vSwitch/ovs.git
 cd ovs/
+git checkout p4
 git submodule update --init
 
 # Build DPDK
@@ -46,6 +47,7 @@ echo 1024 > /sys/devices/system/node/node0/hugepages/hugepages-2048kB/nr_hugepag
 
 # Build OVS (first time only)
 cd /home/vagrant/ovs/
+git checkout 1b186808e4e2940c56e3d5738b1a3c727fa5d0ed
 ./boot.sh
 ./configure --with-dpdk=$DPDK_BUILD CFLAGS="-g -O2 -Wno-cast-align"
 make -j 2
