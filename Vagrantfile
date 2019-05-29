@@ -7,9 +7,9 @@ $script = <<SCRIPT
     sudo apt-get -y install git python-pip fuse libfuse-dev dh-autoreconf openssl libssl-dev cmake libpcap-dev python-yaml
 SCRIPT
 
-$switch_script = <<SWITCH_SCRIPT
-    /vagrant/setup-switch.sh
-SWITCH_SCRIPT
+# $switch_script = <<SWITCH_SCRIPT
+#     /vagrant/setup-switch.sh
+# SWITCH_SCRIPT
 
 # $moongen_script = <<MOONGEN_SCRIPT
 #     /vagrant/setup-moongen.sh
@@ -40,7 +40,7 @@ Vagrant.configure("2") do |config|
         end
 
         # Setup switch
-        switch.vm.provision "shell", inline: $switch_script
+        # switch.vm.provision "shell", inline: $switch_script
     end
 
     # Configure generator
