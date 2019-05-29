@@ -6,5 +6,6 @@ export DPDK_DIR=$RTE_SDK
 export DPDK_BUILD=$DPDK_DIR/$RTE_TARGET/
 
 cd ~/ovs/vswitchd
-sudo gdbserver :12345 ./ovs-vswitchd --dpdk -c 0x1 -n 4 -- unix:/usr/local/var/run/openvswitch/db.sock --pidfile
+# sudo gdbserver :12345 ./ovs-vswitchd --dpdk -c 0x1 -n 4 -- unix:/usr/local/var/run/openvswitch/db.sock --pidfile
+sudo ./ovs-vswitchd --dpdk -c 0x1 -n 4 -- unix:/usr/local/var/run/openvswitch/db.sock --pidfile
 
